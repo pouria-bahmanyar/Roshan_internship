@@ -169,10 +169,10 @@ class convnet(nn.Module):
          nn.Dropout(0.5),
          nn.Linear(in_features=1000, out_features=512, bias=True),
          nn.Dropout(0.5),
-         nn.ReLU(),
+         nn.SELU(),
          nn.Linear(in_features=512, out_features=64, bias=True),
          nn.Dropout(0.4),
-         nn.ReLU(),
+         nn.SELU(),
          nn.Linear(in_features=64, out_features=num_class, bias=True),
         )
     
