@@ -46,16 +46,18 @@ df['true_flase'] = df['data'].apply(extract_true_flase)
  since there are some ```NaN``` elements in our dataset, I deleted those rows using the following code:
  ```
 df = df.dropna(subset=['new_labels', 'true_flase'])
-final_df = df.copy()
  ```
+ since some image names have the format ```.png``` or ```.jpeg``` , I wrote the following rejex code to change them into ```.jpg```:
+ ```
+ df['image']      = df['image'].str.replace(r'\.\w+$', '.jpg', regex=True)
+ final_df = df.copy()
+ ```
+
  here is the final dataframe:
 
  ![second_dataframe](./asstes/dataframe_after_first_preprocess.png)
 
- since some image names have the format ```.png``` or ```.jpeg``` , I wrote the following rejex code to change them into ```.jpg```:
- ```
- df['image']      = df['image'].str.replace(r'\.\w+$', '.jpg', regex=True)
- ```
+
 
  since there are some irrelative images among the dataset, and since most of them are images of face, I used the following code to detect those non-flower images:
 
@@ -86,6 +88,9 @@ for filename in tqdm(os.listdir(image_folder)):
 after that we need to delete some rows in our Dataframe, such as rows that have a image name which is not in the data set. to do that I used the following code:
 ```
 # Drop the row if its name is not in the available names
+image_names = list(final_df['image_name'])
+available_images = os.listdir('/content/roshan_internship_full_dataset_cleaned')
+
 final_df = final_df[final_df['image_name'].isin(available_images)]
 final_df.reset_index(drop=True, inplace=True)
 ```
